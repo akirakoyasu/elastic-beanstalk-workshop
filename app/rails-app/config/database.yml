@@ -23,4 +23,5 @@ test:
 
 production:
   <<: *default
+  host: <%= ENV['RDS_HOSTNAME'] %>
   database: rails_app_production
