@@ -1,0 +1,170 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "web",
+      "image": "nginx:1.10.3",
+      "essential": true,
+      "memory": 256,
+      "environment": [
+        {
+          "name": "APPLICATION_ROLE",
+          "value": "web"
+        }
+      ],
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": [
+        "app"
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "web-conf",
+          "containerPath": "/etc/nginx/conf.d",
+          "readOnly": true
+        },
+        {
+          "sourceVolume": "web-html",
+          "containerPath": "/var/www/html",
+          "readOnly": true
+        },
+        {
+          "sourceVolume": "awseb-logs-web",
+          "containerPath": "/var/log/nginx"
+        }
+      ],
+      "dockerLabels": {
+        "eb.workshop.role": "web"
+      }
+    },
+    {
+      "name": "app",
+      "image": "phusion/passenger-ruby23:0.9.20",
+      "essential": true,
+      "memory": 1024,
+      "environment": [
+        {
+          "name": "APPLICATION_ROLE",
+          "value": "app"
+        }
+      ],
+      "links": [
+        "db"
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "app-init",
+          "containerPath": "/etc/my_init.d/40_setup.sh",
+          "readOnly": true
+        },
+        {
+          "sourceVolume": "app-passenger",
+          "containerPath": "/etc/nginx/sites-available/default",
+          "readOnly": true
+        },
+        {
+          "sourceVolume": "app-rails",
+          "containerPath": "/var/www/rails-app"
+        },
+        {
+          "sourceVolume": "awseb-logs-app",
+          "containerPath": "/var/log/nginx"
+        }
+      ],
+      "dockerLabels": {
+        "eb.workshop.role": "app"
+      }
+    },
+    {
+      "name": "db",
+      "image": "mysql:5.7.17",
+      "essential": true,
+      "memory": 512,
+      "environment": [
+        {
+          "name": "APPLICATION_ROLE",
+          "value": "db"
+        },
+        {
+          "name": "MYSQL_ROOT_PASSWORD",
+          "value": "password"
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "db-config",
+          "containerPath": "/etc/mysql/conf.d/db.cnf",
+          "readOnly": true
+        },
+        {
+          "sourceVolume": "db-script",
+          "containerPath": "/docker-entrypoint-initdb.d/db-init.sql",
+          "readOnly": true
+        },
+        {
+          "sourceVolume": "db-data",
+          "containerPath": "/var/lib/mysql"
+        },
+        {
+          "sourceVolume": "awseb-logs-db",
+          "containerPath": "/var/log/mysql"
+        }
+      ],
+      "dockerLabels": {
+        "eb.workshop.role": "db"
+      }
+    }
+  ],
+  "volumes": [
+    {
+      "name": "web-conf",
+      "host": {
+        "sourcePath": "/var/app/current/web/conf.d"
+      }
+    },
+    {
+      "name": "web-html",
+      "host": {
+        "sourcePath": "/var/app/current/web/html"
+      }
+    },
+    {
+      "name": "app-init",
+      "host": {
+        "sourcePath": "/var/app/current/app/init/40_setup.sh"
+      }
+    },
+    {
+      "name": "app-passenger",
+      "host": {
+        "sourcePath": "/var/app/current/app/passenger/passenger.conf"
+      }
+    },
+    {
+      "name": "app-rails",
+      "host": {
+        "sourcePath": "/var/app/current/app/rails-app"
+      }
+    },
+    {
+      "name": "db-config",
+      "host": {
+        "sourcePath": "/var/app/current/db/config/db.cnf"
+      }
+    },
+    {
+      "name": "db-script",
+      "host": {
+        "sourcePath": "/var/app/current/db/script/db-init.sql"
+      }
+    },
+    {
+      "name": "db-data",
+      "host": {}
+    }
+  ]
+}
