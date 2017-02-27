@@ -29,6 +29,7 @@ services:
     networks:
       - eb.workshop
     volumes:
+      - ./app/init/40_setup.sh:/etc/my_init.d/40_setup.sh:ro
       - ./app/passenger/passenger.conf:/etc/nginx/sites-available/default:ro
       - ./app/rails-app:/var/www/rails-app
 
