@@ -28,10 +28,29 @@ services:
       eb.workshop.role: app
     networks:
       - eb.workshop
+    depends_on:
+      - db
     volumes:
       - ./app/init/40_setup.sh:/etc/my_init.d/40_setup.sh:ro
       - ./app/passenger/passenger.conf:/etc/nginx/sites-available/default:ro
       - ./app/rails-app:/var/www/rails-app
 
+  db:
+    image: mysql:5.7.17
+    environment:
+      APPLICATION_ENV: development
+      APPLICATION_ROLE: db
+      MYSQL_ROOT_PASSWORD: password
+    labels:
+      eb.workshop.role: db
+    networks:
+      - eb.workshop
+    volumes:
+      - ./db/config/db.cnf:/etc/mysql/conf.d/db.cnf
+      - ./db/script/db-init.sql:/docker-entrypoint-initdb.d/db-init.sql
+      - eb.workshop.db:/var/lib/mysql
+
+volumes:
+  eb.workshop.db: {}
 networks:
   eb.workshop: {}
