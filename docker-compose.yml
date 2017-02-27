@@ -1,0 +1,20 @@
+version: "2"
+
+services:
+  web:
+    image: nginx:1.10.3
+    environment:
+      APPLICATION_ENV: development
+      APPLICATION_ROLE: web
+    labels:
+      eb.workshop.role: web
+    ports:
+      - "80:80"
+    networks:
+      - eb.workshop
+    volumes:
+      - ./web/conf.d:/etc/nginx/conf.d:ro
+      - ./web/html:/var/www/html:ro
+
+networks:
+  eb.workshop: {}
