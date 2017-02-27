@@ -29,6 +29,7 @@ services:
     networks:
       - eb.workshop
     volumes:
+      - ./app/passenger/passenger.conf:/etc/nginx/sites-available/default:ro
       - ./app/rails-app:/var/www/rails-app
 
 networks:
