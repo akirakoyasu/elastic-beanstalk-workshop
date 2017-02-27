@@ -12,9 +12,24 @@ services:
       - "80:80"
     networks:
       - eb.workshop
+    depends_on:
+      - app
     volumes:
       - ./web/conf.d:/etc/nginx/conf.d:ro
       - ./web/html:/var/www/html:ro
+
+  app:
+    image: phusion/passenger-ruby23:0.9.20
+    environment:
+      APPLICATION_ENV: development
+      APPLICATION_ROLE: app
+      PASSENGER_APP_ENV: development
+    labels:
+      eb.workshop.role: app
+    networks:
+      - eb.workshop
+    volumes:
+      - ./app/rails-app:/var/www/rails-app
 
 networks:
   eb.workshop: {}
