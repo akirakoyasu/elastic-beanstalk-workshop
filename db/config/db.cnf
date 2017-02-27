@@ -1,0 +1,10 @@
+[mysqld]
+character-set-server=utf8mb4
+
+log-bin=mysql-bin
+server-id=1001
+relay-log=relay-bin
+relay-log-index=relay-bin
+
+[client]
+default-character-set=utf8mb4
