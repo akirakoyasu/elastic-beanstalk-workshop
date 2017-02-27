@@ -70,6 +70,18 @@ sudo docker exec -it $(sudo docker ps --filter label=eb.workshop.role=app -q) ba
 sudo docker exec -it $(sudo docker ps --filter label=eb.workshop.role=db -q) bash -l
 ```
 
+## working with versions
+
+list versions
+```
+eb appversion
+```
+
+deploy version
+```
+eb deploy --version version_label
+```
+
 ## delete env
 ```
 eb terminate workshop-1
