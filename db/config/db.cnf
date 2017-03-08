@@ -6,5 +6,10 @@ server-id=1001
 relay-log=relay-bin
 relay-log-index=relay-bin
 
+general-log
+general_log_file=/var/log/mysql/general.log
+slow-query-log
+slow_query_log_file=/var/log/mysql/slow.log
+
 [client]
 default-character-set=utf8mb4
