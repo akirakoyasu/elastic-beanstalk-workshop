@@ -198,7 +198,7 @@ AWSElasticBeanstalkEnhancedHealth + AWSElasticBeanstalkService
 http://docs.aws.amazon.com/ja_jp/elasticbeanstalk/latest/dg/iam-servicerole.html
 
 ## supported platform
-アカウントでリージョン毎にサポートされてるEC2のプラットフォームが異なります。歴史のあるアカウントの場合は"EC2-Classic"の場合があります。
+アカウントでリージョン毎にサポートされているEC2のプラットフォームが異なります。歴史のあるアカウントの場合は"EC2-Classic"の場合があります。
 ```
 aws ec2 scribe-account-attributes --attribute-names=supported-platforms
 ```
@@ -240,3 +240,7 @@ docker-compose down --volumes
 ```
 git tag
 ```
+
+# feed-back
+よろしければ下記アンケートにご回答ください。
+https://emotion-tech.net/ZoFqDxfG
